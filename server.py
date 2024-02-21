@@ -47,7 +47,7 @@ def get_user_data():
     
 # Getting the users top tracks from the last 4 weeks
 @app.route('/my-top-tracks-short')
-def get_top_tracks_week():
+def get_top_tracks_short():
     access_token = session.get('access_token')
     if access_token:
         sp = Spotify(auth=access_token)
@@ -61,7 +61,7 @@ def get_top_tracks_week():
     
 # Getting the users top tracks from the last 6 month
 @app.route('/my-top-tracks-medium')
-def get_top_tracks_month():
+def get_top_tracks_medium():
     access_token = session.get('access_token')
     if access_token:
         sp = Spotify(auth=access_token)
@@ -75,7 +75,7 @@ def get_top_tracks_month():
     
 # Getting the users top tracks from all the time
 @app.route('/my-top-tracks-long')
-def get_top_tracks_year():
+def get_top_tracks_long():
     access_token = session.get('access_token')
     if access_token:
         sp = Spotify(auth=access_token)
