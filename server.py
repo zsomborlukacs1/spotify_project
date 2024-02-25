@@ -87,5 +87,47 @@ def get_top_tracks_long():
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
     
+# Getting the users top artists from the last 4 weeks
+@app.route('/my-top-artists-short')
+def get_top_artists_short():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
+            return jsonify(top_artists_week)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+
+# Getting the users top artists from the last 6 months
+@app.route('/my-top-artists-medium')
+def get_top_artists_medium():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            top_artists_month = sp.current_user_top_artists(time_range='medium_term', limit=10)
+            return jsonify(top_artists_month)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+    
+# Getting the users top artists from all the time
+@app.route('/my-top-artists-long')
+def get_top_artists_long():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            top_artists_month = sp.current_user_top_artists(time_range='medium_term', limit=10)
+            return jsonify(top_artists_month)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+    
 if __name__ == "__main__":
     app.run(debug=True)
