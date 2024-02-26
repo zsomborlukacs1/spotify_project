@@ -129,5 +129,61 @@ def get_top_artists_long():
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
     
+# Getting the users top genres from the last 4 weeks
+@app.route('/top-genres-short')
+def get_top_genres_short():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            results_artists = sp.current_user_top_artists(limit=50, offset=0, time_range='short_term')
+            list_of_genres = []
+            for result_artist in results_artists["items"]:
+                artist_genres = result_artist["genres"]
+                list_of_genres.extend(artist_genres)
+            return jsonify(list_of_genres)
+        except Exception as e:
+            return jsonify({'error' : str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+    
+
+# Getting the users top genres from the last 6 months    
+@app.route('/top-genres-medium')
+def get_top_genres_medium():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            results_artists = sp.current_user_top_artists(limit=50, offset=0, time_range='medium_term')
+            list_of_genres = []
+            for result_artist in results_artists["items"]:
+                artist_genres = result_artist["genres"]
+                list_of_genres.extend(artist_genres)
+            return jsonify(list_of_genres)
+        except Exception as e:
+            return jsonify({'error' : str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+
+
+# Getting the users top genres from all the time
+@app.route('/top-genres-long')
+def get_top_genres_long():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            results_artists = sp.current_user_top_artists(limit=50, offset=0, time_range='long_term')
+            list_of_genres = []
+            for result_artist in results_artists["items"]:
+                artist_genres = result_artist["genres"]
+                list_of_genres.extend(artist_genres)
+            return jsonify(list_of_genres)
+        except Exception as e:
+            return jsonify({'error' : str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+    
 if __name__ == "__main__":
     app.run(debug=True)
