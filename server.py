@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, redirect, request, jsonify, session, render_template
 from spotipy import Spotify, SpotifyOAuth
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
 @app.route('/login')
 def index():
     auth_url = sp_oauth.get_authorize_url()
-    return f'<a href="{auth_url}">Login with Spotify</a>'
+    return render_template('login.html' , auth_url=auth_url)
 
 # Callback endpoint which gets the auth token and saves it to the session for later use
 @app.route('/callback')
