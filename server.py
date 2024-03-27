@@ -15,9 +15,13 @@ sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                         redirect_uri=SPOTIPY_REDIRECT_URI,
                         scope="user-library-read")
 
+@app.route('/home')
+def index():
+    return render_template('home.html')
+
 # Login endpoint
 @app.route('/login')
-def index():
+def login():
     auth_url = sp_oauth.get_authorize_url()
     return render_template('login.html' , auth_url=auth_url)
 
@@ -29,7 +33,7 @@ def callback():
 
     access_token = token_info['access_token']
     session['access_token'] = access_token
-    return redirect('/profile')
+    return redirect('/home')
 
 # Profile endpoint, with all the datas of the user (For the My Profile Page)
 @app.route('/profile')
