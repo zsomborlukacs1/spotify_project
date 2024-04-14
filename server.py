@@ -7,7 +7,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # Spotify API configuration
 SPOTIPY_CLIENT_ID = 'd7633c6c884e4a26ba105105422becea'
 SPOTIPY_CLIENT_SECRET = '03aa0e231e0e4e19af41dadebac8e55d'
-SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
+SPOTIPY_REDIRECT_URI = 'http://localhost:8000/callback'
 
 # Spotify OAuth object
 sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
@@ -34,6 +34,10 @@ def callback():
     access_token = token_info['access_token']
     session['access_token'] = access_token
     return redirect('/home')
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 # Profile endpoint, with all the datas of the user (For the My Profile Page)
 @app.route('/profile')
@@ -190,4 +194,4 @@ def get_top_genres_long():
         return jsonify({'error': 'Access token is missing.'}), 400
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
