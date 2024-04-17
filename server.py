@@ -39,6 +39,22 @@ def callback():
 def home():
     return render_template('home.html')
 
+@app.route('/top-songs')
+def top_songs():
+    return render_template('top_songs.html')
+
+@app.route('/top-artists')
+def top_artists():
+    return render_template('top_artists.html')
+
+@app.route('/top-genres')
+def top_genres():
+    return render_template('top_genres.html')
+
+@app.route('/logout')
+def logout():
+    return render_template('logout.html')
+
 # Profile endpoint, with all the datas of the user (For the My Profile Page)
 @app.route('/profile')
 def get_user_data():
