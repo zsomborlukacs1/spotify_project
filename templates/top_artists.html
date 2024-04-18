@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible"content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
-    <link rel="stylesheet" href="/static/top_songs.css">
-    <title>Top Songs</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="/static/top_artists.css">
+    <title>Top Artists</title>
 </head>
 <body>
     <header class="header">
@@ -26,7 +26,6 @@
                 <span class="material-icons-outlined">dashboard</span>
                 Dashboard
             </a>
-            
         </div>
         <div class="sidebar-element">
             <a href="http://localhost:8000/top-songs">
@@ -39,7 +38,6 @@
                 <span class="material-icons-outlined">people</span>
                 Top Artists
             </a>
-            
         </div>
         <div class="sidebar-element">
             <a href="http://localhost:8000/top-genres">
@@ -58,8 +56,8 @@
     <main class="main" id="main">
         <div class="container"> 
             <div class="instructions">
-                <b class="inst-heading">Top 50 Songs</b>
-                <p class="inst-paragraph">Here you'll find your top 50 tracks in 3 different time intervals. Choose the one you like!</p>
+                <b class="inst-heading">Top 10 Artists</b>
+                <p class="inst-paragraph">Here you'll find your top artists in 3 different time intervals. Choose the one you like!</p>
             </div>
             <div class="fetch">
                 <b class="time-range">Time range:</b>
@@ -69,13 +67,12 @@
                     <option value="long">Long</option>
                 </select>
             </div>
-            <table id="top-tracks-table">
+            <table id="top-artists-table">
                 <thead>
                     <tr>
                         <th>Position</th>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Artists</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -84,48 +81,42 @@
     </main>
     
     <script>
-
-document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             const selectElement = document.getElementById("fetch-options");
-            const topTracksTable = document.getElementById("top-tracks-table").getElementsByTagName('tbody')[0];
+            const topArtistsTable = document.getElementById("top-artists-table").getElementsByTagName('tbody')[0];
     
             selectElement.addEventListener("change", function () {
                 const selectedValue = selectElement.value;
-                fetch(`/my-top-tracks-${selectedValue}`)
+                fetch(`/my-top-artists-${selectedValue}`)
                     .then((response) => response.json())
                     .then((data) => {
-                        topTracksTable.innerHTML = ""; 
+                        topArtistsTable.innerHTML = ""; 
                         if (data.error) {
-                            const errorRow = topTracksTable.insertRow();
+                            const errorRow = topArtistsTable.insertRow();
                             const errorCell = errorRow.insertCell();
-                            errorCell.colSpan = 4;
+                            errorCell.colSpan = 3;
                             errorCell.textContent = `Error: ${data.error}`;
                         } else {
-                            data.items.forEach((track, index) => {
-                                const trackRow = topTracksTable.insertRow();
-                                const positionCell = trackRow.insertCell();
+                            data.items.forEach((artist, index) => {
+                                const artistRow = topArtistsTable.insertRow();
+                                const positionCell = artistRow.insertCell();
                                 positionCell.textContent = index + 1;
-                                const trackImageCell = trackRow.insertCell();
-                                const trackImage = document.createElement("img");
-                                trackImage.src = track.album.images[0].url;
-                                trackImage.alt = `${track.name} cover`;
-                                trackImage.classList.add("track-image");
-                                trackImageCell.appendChild(trackImage);
-                                const trackNameCell = trackRow.insertCell();
-                                const trackName = document.createElement("p");
-                                trackName.textContent = track.name;
-                                trackName.classList.add("track-name");
-                                trackNameCell.appendChild(trackName);
-                                const trackArtistsCell = trackRow.insertCell();
-                                const trackArtists = document.createElement("p");
-                                trackArtists.textContent = track.artists.map((artist) => artist.name).join(", ");
-                                trackArtists.classList.add("track-artists");
-                                trackArtistsCell.appendChild(trackArtists);
+                                const artistImageCell = artistRow.insertCell();
+                                const artistImage = document.createElement("img");
+                                artistImage.src = artist.images[0].url;
+                                artistImage.alt = `${artist.name} image`;
+                                artistImage.classList.add("artist-image");
+                                artistImageCell.appendChild(artistImage);
+                                const artistNameCell = artistRow.insertCell();
+                                const artistName = document.createElement("p");
+                                artistName.textContent = artist.name;
+                                artistName.classList.add("artist-name");
+                                artistNameCell.appendChild(artistName);
                             });
                         }
                     })
                     .catch((error) => {
-                        console.error("Error fetching top tracks:", error);
+                        console.error("Error fetching top artists:", error);
                     });
             });
             selectElement.dispatchEvent(new Event("change"));
