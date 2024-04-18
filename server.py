@@ -146,7 +146,7 @@ def get_top_artists_long():
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            top_artists_month = sp.current_user_top_artists(time_range='medium_term', limit=10)
+            top_artists_month = sp.current_user_top_artists(time_range='long_term', limit=10)
             return jsonify(top_artists_month)
         except Exception as e:
             return jsonify({'error': str(e)}), 500
