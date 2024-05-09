@@ -160,7 +160,7 @@ def get_top_genres_short():
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            results_artists = sp.current_user_top_artists(limit=50, offset=0, time_range='short_term')
+            results_artists = sp.current_user_top_artists(limit=10, offset=0, time_range='short_term')
             list_of_genres = []
             for result_artist in results_artists["items"]:
                 artist_genres = result_artist["genres"]
@@ -179,7 +179,7 @@ def get_top_genres_medium():
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            results_artists = sp.current_user_top_artists(limit=50, offset=0, time_range='medium_term')
+            results_artists = sp.current_user_top_artists(limit=10, offset=0, time_range='medium_term')
             list_of_genres = []
             for result_artist in results_artists["items"]:
                 artist_genres = result_artist["genres"]
@@ -198,7 +198,7 @@ def get_top_genres_long():
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            results_artists = sp.current_user_top_artists(limit=50, offset=0, time_range='long_term')
+            results_artists = sp.current_user_top_artists(limit=10, offset=0, time_range='long_term')
             list_of_genres = []
             for result_artist in results_artists["items"]:
                 artist_genres = result_artist["genres"]
@@ -208,6 +208,23 @@ def get_top_genres_long():
             return jsonify({'error' : str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
+    
+#endpoints for the dashboard
+
+#top 10 tracks in short term
+@app.route('/top-tracks-chart')
+def get_top_tracks_chart():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            top_tracks_week = sp.current_user_top_tracks(time_range='short_term', limit=10)
+            return jsonify(top_tracks_week)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+
     
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
