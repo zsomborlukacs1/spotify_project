@@ -1,0 +1,162 @@
+body {
+    height: 100vh;
+    display: grid;
+    margin: 0;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas: 
+    "side header"
+    "side main";
+    font-family: 'Poppins', sans-serif;
+}
+
+.header{
+    background-color:#2c2c2c;
+    grid-area: header;
+}
+
+.header-element{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar {
+    background-color: #212121;
+    grid-area: side;
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    overflow-y: auto;
+}
+
+
+
+.sidebar-element {
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-element a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight:400;
+    color: white;
+    padding: 10%;
+}
+
+.sidebar-element a:hover {
+    color: #1DB954;
+}
+
+.material-icons-outlined {
+    margin-right: 10px;
+    color: white;
+}
+
+.logo-img, img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    margin: auto;
+    margin-top: 20px; 
+    margin-bottom: 10px;
+}
+
+.time-range{
+    color: white;
+    margin-left: 30px;
+    font-weight: 500;
+}
+
+.sidebar-element {
+    padding: 20px;
+    cursor: pointer;
+}
+
+.fetch {
+    margin-bottom: 1rem;
+}
+
+#fetch-options {
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    background-color: #f2f2f2;
+    border: none;
+    margin-right: 1rem;
+}
+
+
+
+#top-genres-table {
+    width: 95%;
+    max-height: calc(89% - .8rem);
+    background-color: rgba(78, 78, 78, 0.333);
+    margin: .8rem auto;
+    border-radius: .6rem;
+    overflow: auto;
+    text-align: center;
+}
+
+
+
+#top-genres-table, th, td {
+    padding: 1rem;
+    color: white;
+}
+
+table {
+    width: 100;
+}
+
+#top-genres-table::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+#top-genres-table::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+#top-genres-table:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
+
+
+.main {
+    background-color: #2c2c2c;
+    padding: 25px;
+    grid-area: main;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inst-heading {
+    color: white;
+    font-size: 40px;
+    margin-left: 20px;
+}
+
+.inst-paragraph {
+    color: white;
+    font-size: 20px;
+    margin-left: 30px;
+}
+
+
+
+@media (max-width: 925px) {
+    .main {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6, 200px);
+        grid-template-areas: initial;
+    }
+}
