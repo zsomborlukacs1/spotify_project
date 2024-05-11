@@ -1,7 +1,7 @@
 from flask import Flask, redirect, request, jsonify, session, render_template
 from spotipy import Spotify, SpotifyOAuth
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static', static_url_path='/static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # Spotify API configuration
@@ -191,7 +191,7 @@ def get_top_genres_medium():
         return jsonify({'error': 'Access token is missing.'}), 400
 
 
-# Getting the users top genres from all the time
+# Getting the users top genres from last year
 @app.route('/top-genres-long')
 def get_top_genres_long():
     access_token = session.get('access_token')
@@ -211,7 +211,7 @@ def get_top_genres_long():
     
 #endpoints for the dashboard
 
-#top 10 tracks in short term
+#top 10 tracks in short term 
 @app.route('/top-tracks-chart')
 def get_top_tracks_chart():
     access_token = session.get('access_token')
@@ -220,6 +220,52 @@ def get_top_tracks_chart():
         try:
             top_tracks_week = sp.current_user_top_tracks(time_range='short_term', limit=10)
             return jsonify(top_tracks_week)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+
+#favourite genres from the past year (pie chart)    
+@app.route('/top-genres-chart')
+def get_top_genres_chart():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            results_artists = sp.current_user_top_artists(limit=3, time_range='long_term')
+            list_of_genres = []
+            for result_artist in results_artists["items"]:
+                artist_genres = result_artist["genres"]
+                list_of_genres.extend(artist_genres)
+            return jsonify(list_of_genres)
+        except Exception as e:
+            return jsonify({'error' : str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+    
+#top 10 artists from the last month    
+@app.route('/my-top-artists-chart')
+def get_top_artists_chart():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
+            return jsonify(top_artists_week)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
+
+#the all time favourite artist    
+@app.route('/my-top-artist-dashboard')
+def get_top_artist_dashboard():
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            top_artists_week = sp.current_user_top_artists(time_range='long_term', limit=3)
+            return jsonify(top_artists_week)
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     else:
