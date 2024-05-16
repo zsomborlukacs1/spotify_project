@@ -1,19 +1,20 @@
 from flask import Flask, redirect, request, jsonify, session, render_template
 from spotipy import Spotify, SpotifyOAuth
+from datetime import datetime, timedelta
 
 app = Flask(__name__,static_folder='static', static_url_path='/static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # Spotify API configuration
-SPOTIPY_CLIENT_ID = 'd7633c6c884e4a26ba105105422becea'
-SPOTIPY_CLIENT_SECRET = '03aa0e231e0e4e19af41dadebac8e55d'
+SPOTIPY_CLIENT_ID = '27fe7d1bfb904201b317cc6a58e5020e'
+SPOTIPY_CLIENT_SECRET = '22e59df7d94d42febf83654897266f6d'
 SPOTIPY_REDIRECT_URI = 'http://localhost:8000/callback'
 
 # Spotify OAuth object
 sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                         client_secret=SPOTIPY_CLIENT_SECRET,
                         redirect_uri=SPOTIPY_REDIRECT_URI,
-                        scope="user-library-read")
+                        scope="user-library-read,user-top-read,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public")
 
 @app.route('/home')
 def index():
@@ -316,7 +317,8 @@ def get_recommendations_genres():
                     'position': position,
                     'name': track['name'],
                     'artists': [artist['name'] for artist in track['artists']],
-                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None
+                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                    'preview_url': track['preview_url']
                 }
                 formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
@@ -340,7 +342,8 @@ def get_recommendations_artists():
                     'position': position,
                     'name': track['name'],
                     'artists': [artist['name'] for artist in track['artists']],
-                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None
+                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                    'preview_url': track['preview_url']
                 }
                 formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
@@ -366,7 +369,8 @@ def get_recommendations_songs():
                     'position': position,
                     'name': track['name'],
                     'artists': [artist['name'] for artist in track['artists']],
-                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None
+                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                    'preview_url': track['preview_url']
                 }
                 formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
@@ -375,5 +379,52 @@ def get_recommendations_songs():
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
     
+#Create playlist for top songs page
+@app.route('/create-playlist-short')
+def create_playlist_short():
+    return create_playlist('short_term')
+
+@app.route('/create-playlist-medium')
+def create_playlist_medium():
+    return create_playlist('medium_term')
+
+@app.route('/create-playlist-long')
+def create_playlist_long():
+    return create_playlist('long_term')
+
+def get_playlist_name(time_range):
+    if time_range == 'short_term':
+        current_month = datetime.now().strftime("%B")
+        return f'My Top 50 Tracks {current_month}'
+    elif time_range == 'medium_term':
+        return 'My Top 50 Tracks (Last 6 months)'
+    elif time_range == 'long_term':
+        last_year = (datetime.now() - timedelta(days=365)).strftime("%Y")
+        return f'My Top 50 Tracks ({last_year})'
+    else:
+        return 'Unknown Time Range'
+
+def create_playlist(time_range):
+    access_token = session.get('access_token')
+    if access_token:
+        sp = Spotify(auth=access_token)
+        try:
+            # Az adott időtartományban a legnépszerűbb számok lekérése
+            top_tracks = sp.current_user_top_tracks(time_range=time_range, limit=50)
+            # A számok URI-jainak kinyerése
+            track_uris = [track['uri'] for track in top_tracks['items']]
+            # Playlist nevének lekérése
+            playlist_name = get_playlist_name(time_range)
+            # Playlist létrehozása a Spotify API segítségével
+            playlist = sp.user_playlist_create(sp.current_user()['id'], playlist_name, public=False)
+            # A létrehozott playlist azonosítója
+            playlist_id = playlist['id']
+            # A létrehozott playlist-hez hozzáadott számok
+            sp.user_playlist_add_tracks(sp.current_user()['id'], playlist_id, track_uris)
+            return jsonify({'success': True, 'playlist_id': playlist_id})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Access token is missing.'}), 400
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
