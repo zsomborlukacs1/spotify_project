@@ -51,6 +51,10 @@ def top_artists():
 def top_genres():
     return render_template('top_genres.html')
 
+@app.route('/discover')
+def discover():
+    return render_template('new_songs.html')
+
 @app.route('/logout')
 def logout():
     return render_template('logout.html')
