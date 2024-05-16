@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
     <link rel="stylesheet" href="/static/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <title>Spotify</title>
 </head>
 <body>
     <header class="header">
         <div class="header-element">
-            <span class="material-icons-outlined">search</span>
-            <span id="profile-icon" class="material-icons-outlined">person</span>
+            <p class="header-text">Dashboard</p>
         </div>
     </header>
 
@@ -48,6 +50,12 @@
             </a>
         </div>
         <div class="sidebar-element">
+            <a href="http://localhost:8000/top-songs">
+                <span class="material-icons-outlined">audiotrack</span>
+                Discover Songs
+            </a>
+        </div>
+        <div class="sidebar-element">
             <a href="http://localhost:8000/logout">
                 <span class="material-icons-outlined">logout</span>
                 Log Out
@@ -56,15 +64,40 @@
     </section>
 
     <main class="main">
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
+        <div class="box">
+            <p class="box-text">Dashboard</p>
+            <p class="dashboard-text">This is the dashboard, here you will find diagrams and summaries of your listenings!</p>
+            <p class="dashboard-text">If that's not enough, click on the sidebar for more interesting stuff</p>
+        </div>
+        <div class="box">
+            <p class="box-text">Top 10 songs from the past month</p>
+            <canvas id="myChart" width="200" height="200"></canvas>
+        </div>
+        <div class="box">
+            <p class="box-text">Top 10 genres from the past month</p>
+            <canvas id="genreChart" width="200" height="200"></canvas>
+        </div>      
+        <div class="box">
+            <p class="box-text">These bangers have been on your speakers a lot</p>
+            <table id="top-tracks-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Artists</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="box" id="numeroUnoBox">
+            <p class="box-text">Your Numero Uno from the last year</p>
+        </div>  
+        <div class="box">
+            <p class="box-text">New feature alert</p>
+        </div>
     </main>
-
-    <script src="/scripts/home.js"></script>
 </body>
+<script src="/static/scripts/home.js"></script>
 </html>
