@@ -16,12 +16,13 @@ body {
 }
 
 .header-element{
-    padding: 20px;
+    padding: 10px;
+    color: white;
+    font-size: large;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
-
 .sidebar {
     background-color: #212121;
     grid-area: side;
