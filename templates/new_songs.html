@@ -12,7 +12,7 @@
 <body>
     <header class="header">
         <div class="header-element">
-            
+            <p class="header-text">Discover</p>
         </div>
     </header>
 
@@ -62,8 +62,33 @@
 
     <main class="main" id="main">
         <div class="container"> 
+            <div class="instructions">
+                <b class="inst-heading">You might like these songs</b>
+                <p class="inst-paragraph">Here you'll find your top 50 song recommendations in 3 different options. <br> Try all 3 for the best experience!</p>
+            </div>
+            <div class="fetch">
+                <b class="time-range">Based on:</b>
+                <select id="fetch-options">
+                    <option value="songs">My top songs</option>
+                    <option value="artists">My top artists</option>
+                    <option value="genres">My top genres</option>
+                </select>
+            </div>
+            <table id="top-tracks-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Artists</th>
+                        <th>Playback</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </main>
        
 </body>
+<script src="/static/scripts/new_songs.js"></script>
 </html>
