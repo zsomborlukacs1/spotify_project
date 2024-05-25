@@ -91,7 +91,7 @@ body {
 
 
 .box {
-    background-color: rgba(78, 78, 78, 0.333);
+    background-color: #282828;
     border-radius: 10px;
 }
 
@@ -142,14 +142,13 @@ body {
 
 #top-tracks-table {
     width: 95%;
-    max-height: calc(89% - .8rem);
-    background-color: rgba(78, 78, 78, 0.333);
+    max-height: calc(89% - 40%);
     margin: .8rem auto;
     border-radius: .6rem;
-    overflow: auto;
+    overflow-y: scroll;
+
     text-align: center;
 }
-
 
 
 #top-tracks-table, th, td {
@@ -157,38 +156,171 @@ body {
     color: white;
 }
 
-table {
-    width: 100;
-}
-
 .track-image {
     width: 36px;
     height: 36px;
     margin-right: .5rem;
     border-radius: 50%;
-
     vertical-align: middle;
 }
 
+.player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #212121;
+    height: 100%;
+}
+
+#player-box {
+    grid-area: c4; 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+#sliderContainer {
+    max-width: 300px; 
+    margin: 0 auto; 
+}
+
+.slick-slide, p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.slick-slide, a {
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+}
+
+.slick-slide img {
+    width: 180px;
+    height: auto;
+    border-radius: 10%;
+}
+
+.slick-slide, a:hover{
+    transition: 0.3s;
+    color: #1DB954
+}
+
+#numeroUnoBox {
+    position: relative;
+    overflow: hidden; 
+}
+
+
+#recommendationsContainer{
+    max-width: 300px; 
+    margin: 0 auto; 
+}   
+
+#muteButton {
+    display: block;
+    margin: 10px auto; 
+    transition: 0.7s;
+    top:50%;
+    background-color:#13230a;
+    color: #fff;
+    border:none; 
+    border-radius:10px; 
+    padding:15px;
+    min-height:30px; 
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#discoverButton{
+    display: block;
+    margin: 10px auto; /* Középre igazítás vízszintesen */
+    transition: 0.7s;
+    top:50%;
+    background-color:#13230a;
+    color: #fff;
+    border:none; 
+    border-radius:10px; 
+    padding:15px;
+    min-height:30px; 
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#artistButton{
+    display: block;
+    margin: 10px auto; 
+    transition: 0.7s;
+    top:50%;
+    background-color:#13230a;
+    color: #fff;
+    border:none; 
+    border-radius:10px; 
+    padding:15px;
+    min-height:30px; 
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+#artistButton:hover {
+    background: #1DB954;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #1DB954,
+                0 0 25px #1DB954,
+                0 0 50px #1DB954,
+                0 0 100px #1DB954;
+}
+
+
+#muteButton:hover {
+    background: #1DB954;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #1DB954,
+                0 0 25px #1DB954,
+                0 0 50px #1DB954,
+                0 0 100px #1DB954;
+}
+
+#discoverButton:hover {
+    background: #1DB954;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #1DB954,
+                0 0 25px #1DB954,
+                0 0 50px #1DB954,
+                0 0 100px #1DB954;
+}
+
+.feature-text{
+    text-align: center;
+}
 
 
 @media (max-width: 768px) {
     body {
-        grid-template-columns: 1fr; /* Adjust grid layout for smaller screens */
-        grid-template-rows: 60px auto; /* Adjust grid layout for smaller screens */
+        grid-template-columns: 1fr; 
+        grid-template-rows: 40px auto; 
         grid-template-areas: 
             "header"
             "main";
     }
 
     .sidebar {
-        display: none; /* Hide sidebar on smaller screens */
+        display: none; 
     }
 
     .main {
-        padding: 15px; /* Adjust padding */
-        grid-template-columns: 1fr; /* Set grid layout to one column */
-        grid-template-rows: auto; /* Allow rows to expand as needed */
+        padding: 15px; 
+        grid-template-columns: 0.5fr; 
+        grid-template-rows: auto;
         grid-template-areas: 
             "c1"
             "c2"
@@ -199,16 +331,16 @@ table {
     }
 
     .box {
-        width: 100%; /* Make boxes full width */
+        width: 100%;
     }
 
     .logo-img, img {
-        width: 150px; /* Adjust logo size */
-        margin-top: 10px; /* Adjust margin */
-        margin-bottom: 5px; /* Adjust margin */
+        width: 150px; 
+        margin-top: 10px; 
+        margin-bottom: 5px; 
     }
 
     .box-text, .dashboard-text {
-        font-size: 14px; /* Adjust font size */
+        font-size: 14px; 
     }
 }
