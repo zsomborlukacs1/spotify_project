@@ -203,5 +203,3 @@ wrapt==1.16.0
 xxhash==3.4.1
 yarl==1.9.4
 zipp==3.18.1
-bentoml[io-file,io-image,io-json,io-pandas]==1.1.11
-pydantic==2.7.1
