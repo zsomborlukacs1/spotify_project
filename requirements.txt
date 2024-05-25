@@ -57,7 +57,6 @@ google-api-core==2.19.0
 google-api-python-client==2.129.0
 google-auth==2.29.0
 google-auth-httplib2==0.2.0
-google-generativeai==0.5.2
 google-pasta==0.2.0
 googleapis-common-protos==1.63.0
 gpt4all==2.6.0
@@ -83,11 +82,8 @@ jsonpatch==1.33
 jsonpointer==2.4
 keras==3.2.1
 kiwisolver==1.4.5
-langchain==0.1.20
 langchain-community==0.0.38
-langchain-core==0.1.52
 langchain-text-splitters==0.0.1
-langsmith==0.1.56
 libclang==18.1.1
 llamaapi==0.1.36
 loguru==0.7.2
@@ -110,7 +106,6 @@ networkx==3.3
 numpy==1.26.4
 nvidia-ml-py==11.525.150
 ollama==0.2.0
-openai==1.28.1
 openllm==0.4.44
 openllm-client==0.4.44
 openllm-core==0.4.44
@@ -151,7 +146,6 @@ Pygments==2.17.2
 pyparsing==3.1.2
 pyproject_hooks==1.1.0
 python-dateutil==2.9.0.post0
-python-gemini-api==2.4.11
 python-json-logger==2.0.7
 python-multipart==0.0.9
 pytz==2024.1
@@ -159,7 +153,6 @@ PyYAML==6.0.1
 pyzmq==26.0.3
 redis==5.0.3
 regex==2024.5.10
-replicate==0.25.2
 requests==2.31.0
 rich==13.7.1
 rsa==4.9
@@ -182,7 +175,6 @@ tensorboard==2.16.2
 tensorboard-data-server==0.7.2
 tensorflow==2.16.1
 termcolor==2.4.0
-text-generation==0.7.0
 tokenizers==0.19.1
 torch==2.2.2
 tornado==6.4
