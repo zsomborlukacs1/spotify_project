@@ -16,13 +16,9 @@ sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                         redirect_uri=SPOTIPY_REDIRECT_URI,
                         scope="user-library-read,user-top-read,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public")
 
-@app.route('/home')
+@app.route('/')
 def index():
-    return render_template('home.html')
-
-@app.route('/new_home')
-def newHome():
-    return render_template('new_home.html')
+    return redirect('/login')
 
 # Login endpoint
 @app.route('/login')
@@ -63,20 +59,6 @@ def discover():
 @app.route('/logout')
 def logout():
     return render_template('login.html')
-
-# Profile endpoint, with all the datas of the user (For the My Profile Page)
-@app.route('/profile')
-def get_user_data():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
-        try:
-            user_info = sp.current_user()
-            return jsonify(user_info)
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-    else:
-        return jsonify({'error': 'Access token is missing.'}), 400
     
 # Getting the users top tracks from the last 4 weeks
 @app.route('/my-top-tracks-short')
@@ -88,6 +70,8 @@ def get_top_tracks_short():
             top_tracks_week = sp.current_user_top_tracks(time_range='short_term', limit=50)
             return jsonify(top_tracks_week)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'Please relogin': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -102,6 +86,8 @@ def get_top_tracks_medium():
             top_tracks_month = sp.current_user_top_tracks(time_range='medium_term', limit=50) 
             return jsonify(top_tracks_month)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -116,6 +102,8 @@ def get_top_tracks_long():
             top_tracks_year = sp.current_user_top_tracks(time_range='long_term', limit=50)
             return jsonify(top_tracks_year)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -130,6 +118,8 @@ def get_top_artists_short():
             top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
             return jsonify(top_artists_week)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -144,6 +134,8 @@ def get_top_artists_medium():
             top_artists_month = sp.current_user_top_artists(time_range='medium_term', limit=10)
             return jsonify(top_artists_month)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -158,6 +150,8 @@ def get_top_artists_long():
             top_artists_month = sp.current_user_top_artists(time_range='long_term', limit=10)
             return jsonify(top_artists_month)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -176,6 +170,8 @@ def get_top_genres_short():
                 list_of_genres.extend(artist_genres)
             return jsonify(list_of_genres)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error' : str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -195,6 +191,8 @@ def get_top_genres_medium():
                 list_of_genres.extend(artist_genres)
             return jsonify(list_of_genres)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error' : str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -214,6 +212,8 @@ def get_top_genres_long():
                 list_of_genres.extend(artist_genres)
             return jsonify(list_of_genres)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error' : str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400 
@@ -230,6 +230,8 @@ def get_top_tracks_chart():
             top_tracks_week = sp.current_user_top_tracks(time_range='short_term', limit=10)
             return jsonify(top_tracks_week)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -263,6 +265,8 @@ def get_top_genres_chart():
                 list_of_genres.extend(artist_genres)
             return jsonify(list_of_genres)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error' : str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -277,6 +281,8 @@ def get_top_artists_chart():
             top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
             return jsonify(top_artists_week)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -305,45 +311,13 @@ def get_recommendations_dash():
                     formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
 
-#Music recommendation system   
-@app.route('/recommendations-genres')
-def get_recommendations_genres():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
-        try:
-            results_artists = sp.current_user_top_artists(time_range='short_term', limit=10)
-            list_of_genres = []
-            i = 0
-            for result_artist in results_artists["items"]:
-                if i <= 10:
-                    artist_genres = result_artist["genres"]
-                    list_of_genres.extend(artist_genres)
-                    i = i+1
-                else:
-                    break
-            genres = list_of_genres[:5]
-            recommendations = sp.recommendations(seed_genres=genres, limit=50)
-            formatted_recommendations = []
-            for position, track in enumerate(recommendations['tracks'], start=1):
-                if track.get('preview_url'):
-                    track_info = {
-                        'position': position,
-                        'name': track['name'],
-                        'artists': [artist['name'] for artist in track['artists']],
-                        'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                        'preview_url': track['preview_url']
-                    }
-                    formatted_recommendations.append(track_info)
-            return jsonify(formatted_recommendations)
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-    else:
-        return jsonify({'error': 'Access token is missing.'}), 400
+#Music recommendation system
     
 @app.route('/recommendations-artists')
 def get_recommendations_artists():
@@ -362,11 +336,14 @@ def get_recommendations_artists():
                         'name': track['name'],
                         'artists': [artist['name'] for artist in track['artists']],
                         'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                        'preview_url': track['preview_url']
+                        'preview_url': track['preview_url'],
+                        'track_uri': track['uri']
                     }
                     formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -388,11 +365,14 @@ def get_recommendations_songs():
                         'name': track['name'],
                         'artists': [artist['name'] for artist in track['artists']],
                         'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                        'preview_url': track['preview_url']
+                        'preview_url': track['preview_url'],
+                        'track_uri': track['uri']
                     }
                     formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -413,12 +393,11 @@ def create_playlist_long():
 def get_playlist_name(time_range):
     if time_range == 'short_term':
         current_month = datetime.now().strftime("%B")
-        return f'My Top 50 Tracks {current_month}'
+        return f'Datafy Top 50 Tracks {current_month}'
     elif time_range == 'medium_term':
-        return 'My Top 50 Tracks (Last 6 months)'
+        return 'Datafy Top 50 Tracks (Last 6 months)'
     elif time_range == 'long_term':
-        last_year = (datetime.now() - timedelta(days=365)).strftime("%Y")
-        return f'My Top 50 Tracks ({last_year})'
+        return f'Datafy Top 50 Tracks From ~1 year'
     else:
         return 'Unknown Time Range'
 
@@ -435,6 +414,8 @@ def create_playlist(time_range):
             sp.user_playlist_add_tracks(sp.current_user()['id'], playlist_id, track_uris)
             return jsonify({'success': True, 'playlist_id': playlist_id})
         except Exception as e:
+            if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
@@ -468,6 +449,8 @@ def add_to_recommended_playlist():
         sp.playlist_add_items(playlist_id, [track_uri])
         return jsonify({'success': True})
     except Exception as e:
+        if e.http_status == 401:
+                return jsonify({'error': 'Access token expired, please relogin.'}), 401
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
