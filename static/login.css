@@ -133,3 +133,10 @@ body {
     bottom: 100%;
   }
 }
+
+.logo {
+  width: 200px;
+  padding: 30px;
+  display: block;
+  margin: 0 auto;
+}
