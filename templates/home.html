@@ -1,104 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible"content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
-    <link rel="stylesheet" href="/static/home.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/home.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <title>Spotify</title>
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+    ></script>
+
+    <title>Datafy</title>
+  </head>
+  <body>
     <header class="header">
-        <div class="header-element">
-            <p class="header-text">Dashboard</p>
-        </div>
+      <div class="header-element">
+        <p class="header-text">Dashboard</p>
+      </div>
     </header>
 
     <section class="sidebar">
-        <div class="logo-img">
-            <img src="/static/images/statify_logo_cropped.png" alt="statify_logo">
+      <div class="logo-img">
+        <img src="/static/images/logo-no-background.png" alt="statify_logo" />
+      </div>
+      <div class="sidebar_column">
+        <div class="sidebar-element">
+          <a href="http://localhost:8000/home">
+            <span class="material-icons-outlined">dashboard</span>
+            Dashboard
+          </a>
         </div>
-        <div class="sidebar_column">
-            <div class="sidebar-element">
-                <a href="http://localhost:8000/home">
-                    <span class="material-icons-outlined">dashboard</span>
-                    Dashboard
-                </a>
-                
-            </div>
-            <div class="sidebar-element">
-                <a href="http://localhost:8000/top-songs">
-                    <span class="material-icons-outlined">audiotrack</span>
-                    Top Songs
-                </a>
-            </div>
-            <div class="sidebar-element">
-                <a href="http://localhost:8000/top-artists">
-                    <span class="material-icons-outlined">people</span>
-                    Top Artists
-                </a>
-                
-            </div>
-            <div class="sidebar-element">
-                <a href="http://localhost:8000/top-genres">
-                    <span class="material-icons-outlined">theater_comedy</span>
-                    Top Genres
-                </a>
-            </div>
-            <div class="sidebar-element">
-                <a href="http://localhost:8000/discover">
-                    <span class="material-icons-outlined">headset</span>
-                    Discover Songs
-                </a>
-            </div>
-            <div class="sidebar-element">
-                <a href="http://localhost:8000/logout">
-                    <span class="material-icons-outlined">logout</span>
-                    Log Out
-                </a>
-            </div>
+        <div class="sidebar-element">
+          <a href="http://localhost:8000/top-songs">
+            <span class="material-icons-outlined">audiotrack</span>
+            Top Songs
+          </a>
         </div>
+        <div class="sidebar-element">
+          <a href="http://localhost:8000/top-artists">
+            <span class="material-icons-outlined">people</span>
+            Top Artists
+          </a>
+        </div>
+        <div class="sidebar-element">
+          <a href="http://localhost:8000/top-genres">
+            <span class="material-icons-outlined">theater_comedy</span>
+            Top Genres
+          </a>
+        </div>
+        <div class="sidebar-element">
+          <a href="http://localhost:8000/discover">
+            <span class="material-icons-outlined">headset</span>
+            Discover Songs
+          </a>
+        </div>
+        <div class="sidebar-element">
+          <a href="http://localhost:8000/login">
+            <span class="material-icons-outlined">login</span>
+            Log In
+          </a>
+        </div>
+      </div>
     </section>
 
     <main class="main">
-        <div class="box">
-            <p class="dashboard-text">This is the dashboard, here you will find diagrams and summaries of your listenings!</p>
-            <p class="dashboard-text">If that's not enough, click on the <br>sidebar for more interesting stuff</p>
+      <div class="box">
+        <p class="box-text">Top artists from the past month 🧑🏻‍🎨</p>
+        <div id="sliderContainer" class="slider-container"></div>
+        <button id="artistButton">Check out more</button>
+      </div>
+      <div class="box">
+        <p class="box-text">Top 10 songs from the past month 🎵</p>
+        <canvas id="myChart" width="200" height="200"></canvas>
+      </div>
+      <div class="box">
+        <p class="box-text">Top 10 genres from the past month 🎭</p>
+        <canvas id="genreChart" width="200" height="200"></canvas>
+      </div>
+      <div class="box" id="player-box">
+        <div class="player">
+          <iframe
+            style="border-radius: 12px"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
         </div>
-        <div class="box">
-            <p class="box-text">Top 10 songs from the past month</p>
-            <canvas id="myChart" width="200" height="200"></canvas>
+      </div>
+      <div class="box" id="numeroUnoBox">
+        <div class="recommendations">
+          <p class="box-text">You might also like these 🤔</p>
+          <div id="recommendationsContainer" class="slider"></div>
+          <button id="muteButton">Mute</button>
         </div>
-        <div class="box">
-            <p class="box-text">Top 10 genres from the past month</p>
-            <canvas id="genreChart" width="200" height="200"></canvas>
-        </div>      
-        <div class="box">
-            <p class="box-text">These bangers have been on your speakers a lot</p>
-            <table id="top-tracks-table">
-                <thead>
-                    <tr>
-                        <th>Position</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Artists</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <div class="box" id="numeroUnoBox">
-            <p class="box-text">Your Numero Uno from the last year</p>
-        </div>  
-        <div class="box">
-            <p class="box-text">New feature alert</p>
-        </div>
+      </div>
+      <div class="box">
+        <p class="box-text">New feature alert 🚨</p><br>
+        <p class="feature-text">Discover music with our Discover Music function! 🔎<br>
+          Personalized recommendations are waiting for you to explore your new favorites! 🎶<br>
+          Just click on the button, and you can dive into the world of music! 🎧💫</p><br>
+          <button id="discoverButton">Discover Songs</button>
+      </div>
     </main>
-</body>
-<script src="/static/scripts/home.js"></script>
+  </body>
+  <script src="/static/scripts/home.js"></script>
 </html>
