@@ -20,6 +20,10 @@ sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
 def index():
     return render_template('home.html')
 
+@app.route('/new_home')
+def newHome():
+    return render_template('new_home.html')
+
 # Login endpoint
 @app.route('/login')
 def login():
@@ -58,7 +62,7 @@ def discover():
 
 @app.route('/logout')
 def logout():
-    return render_template('logout.html')
+    return render_template('login.html')
 
 # Profile endpoint, with all the datas of the user (For the My Profile Page)
 @app.route('/profile')
@@ -230,14 +234,14 @@ def get_top_tracks_chart():
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
     
-@app.route('/top-tracks-dash')
-def get_top_tracks_dash():
+@app.route('/top-artists-dash')
+def get_top_artists_dash():
     access_token = session.get('access_token')
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            top_tracks_week = sp.current_user_top_tracks(time_range='medium_term', limit=6)
-            return jsonify(top_tracks_week)
+            top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
+            return jsonify(top_artists_week)
         except Exception as e:
             if e.http_status == 401:
                 return jsonify({'error': 'Access token expired, please relogin.'}), 401
@@ -277,22 +281,35 @@ def get_top_artists_chart():
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
 
-#the all time favourite artist    
-@app.route('/my-top-artist-last-year')
-def get_top_artist_last_year():
+@app.route('/recommendations-dash')
+def get_recommendations_dash():
     access_token = session.get('access_token')
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            top_artists_last_year = sp.current_user_top_artists(time_range='long_term', limit=1)
-            artist_name = top_artists_last_year['items'][0]['name']
-            artist_image = top_artists_last_year['items'][0]['images'][0]['url'] if top_artists_last_year['items'][0]['images'] else None
-            return jsonify({'name': artist_name, 'image': artist_image})
+            
+            top_tracks = sp.current_user_top_tracks(time_range='short_term', limit=5)
+            track_ids = [track["id"] for track in top_tracks["items"]] 
+
+            recommendations = sp.recommendations(seed_tracks=track_ids, limit=50)
+            formatted_recommendations = []
+            for position, track in enumerate(recommendations['tracks'], start=1):
+                if track.get('preview_url'):
+                    track_info = {
+                        'position': position,
+                        'name': track['name'],
+                        'artists': [artist['name'] for artist in track['artists']],
+                        'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                        'preview_url': track['preview_url']
+                    }
+                    formatted_recommendations.append(track_info)
+            return jsonify(formatted_recommendations)
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
 
+#Music recommendation system   
 @app.route('/recommendations-genres')
 def get_recommendations_genres():
     access_token = session.get('access_token')
@@ -313,14 +330,15 @@ def get_recommendations_genres():
             recommendations = sp.recommendations(seed_genres=genres, limit=50)
             formatted_recommendations = []
             for position, track in enumerate(recommendations['tracks'], start=1):
-                track_info = {
-                    'position': position,
-                    'name': track['name'],
-                    'artists': [artist['name'] for artist in track['artists']],
-                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                    'preview_url': track['preview_url']
-                }
-                formatted_recommendations.append(track_info)
+                if track.get('preview_url'):
+                    track_info = {
+                        'position': position,
+                        'name': track['name'],
+                        'artists': [artist['name'] for artist in track['artists']],
+                        'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                        'preview_url': track['preview_url']
+                    }
+                    formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -338,21 +356,20 @@ def get_recommendations_artists():
             recommendations = sp.recommendations(seed_artists=artist_ids, limit=50)
             formatted_recommendations = []
             for position, track in enumerate(recommendations['tracks'], start=1):
-                track_info = {
-                    'position': position,
-                    'name': track['name'],
-                    'artists': [artist['name'] for artist in track['artists']],
-                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                    'preview_url': track['preview_url']
-                }
-                formatted_recommendations.append(track_info)
+                if track.get('preview_url'):
+                    track_info = {
+                        'position': position,
+                        'name': track['name'],
+                        'artists': [artist['name'] for artist in track['artists']],
+                        'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                        'preview_url': track['preview_url']
+                    }
+                    formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
-    
-#music recommendation system
     
 @app.route('/recommendations-songs')
 def get_recommendations_songs():
@@ -365,14 +382,15 @@ def get_recommendations_songs():
             recommendations = sp.recommendations(seed_tracks=track_ids, limit=50)
             formatted_recommendations = []
             for position, track in enumerate(recommendations['tracks'], start=1):
-                track_info = {
-                    'position': position,
-                    'name': track['name'],
-                    'artists': [artist['name'] for artist in track['artists']],
-                    'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                    'preview_url': track['preview_url']
-                }
-                formatted_recommendations.append(track_info)
+                if track.get('preview_url'):
+                    track_info = {
+                        'position': position,
+                        'name': track['name'],
+                        'artists': [artist['name'] for artist in track['artists']],
+                        'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+                        'preview_url': track['preview_url']
+                    }
+                    formatted_recommendations.append(track_info)
             return jsonify(formatted_recommendations)
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -409,22 +427,48 @@ def create_playlist(time_range):
     if access_token:
         sp = Spotify(auth=access_token)
         try:
-            # Az adott időtartományban a legnépszerűbb számok lekérése
             top_tracks = sp.current_user_top_tracks(time_range=time_range, limit=50)
-            # A számok URI-jainak kinyerése
             track_uris = [track['uri'] for track in top_tracks['items']]
-            # Playlist nevének lekérése
             playlist_name = get_playlist_name(time_range)
-            # Playlist létrehozása a Spotify API segítségével
             playlist = sp.user_playlist_create(sp.current_user()['id'], playlist_name, public=False)
-            # A létrehozott playlist azonosítója
             playlist_id = playlist['id']
-            # A létrehozott playlist-hez hozzáadott számok
             sp.user_playlist_add_tracks(sp.current_user()['id'], playlist_id, track_uris)
             return jsonify({'success': True, 'playlist_id': playlist_id})
         except Exception as e:
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Access token is missing.'}), 400
+
+#add recommended track to Datafy Recommended Playlist    
+@app.route('/add-to-recommended-playlist', methods=['GET'])
+def add_to_recommended_playlist():
+    access_token = session.get('access_token')
+    if not access_token:
+        return jsonify({'error': 'Access token is missing.'}), 400
+
+    track_uri = request.args.get('track_uri')
+    if not track_uri:
+        return jsonify({'error': 'Track URI is missing.'}), 400
+
+    sp = Spotify(auth=access_token)
+    try:
+        user_id = sp.current_user()['id']
+        playlists = sp.current_user_playlists()
+        playlist_id = None
+
+        for playlist in playlists['items']:
+            if playlist['name'] == 'Datafy Recommendations':
+                playlist_id = playlist['id']
+                break
+
+        if not playlist_id:
+            new_playlist = sp.user_playlist_create(user=user_id, name='Datafy Recommendations', public=False)
+            playlist_id = new_playlist['id']
+
+        sp.playlist_add_items(playlist_id, [track_uri])
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
