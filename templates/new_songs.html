@@ -1,94 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible"content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
-    <link rel="stylesheet" href="/static/new_songs.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/new_songs.css" />
     <title>Top Songs</title>
-</head>
-<body>
+  </head>
+  <body>
     <header class="header">
-        <div class="header-element">
-            <p class="header-text">Discover</p>
-        </div>
+      <div class="header-element">
+        <p class="header-text">Discover</p>
+      </div>
     </header>
 
     <section class="sidebar">
-        <div class="logo-img">
-            <img src="/static/images/statify_logo_cropped.png" alt="statify_logo">
-        </div>
-        <div class="sidebar-element">
-            <a href="http://localhost:8000/home">
-                <span class="material-icons-outlined">dashboard</span>
-                Dashboard
-            </a>
-            
-        </div>
-        <div class="sidebar-element">
-            <a href="http://localhost:8000/top-songs">
-                <span class="material-icons-outlined">audiotrack</span>
-                Top Songs
-            </a>
-        </div>
-        <div class="sidebar-element">
-            <a href="http://localhost:8000/top-artists">
-                <span class="material-icons-outlined">people</span>
-                Top Artists
-            </a>
-            
-        </div>
-        <div class="sidebar-element">
-            <a href="http://localhost:8000/top-genres">
-                <span class="material-icons-outlined">theater_comedy</span>
-                Top Genres
-            </a>
-        </div>
-        <div class="sidebar-element">
-            <a href="http://localhost:8000/discover">
-                <span class="material-icons-outlined">headset</span>
-                Discover Songs
-            </a>
-        </div>
-        <div class="sidebar-element">
-            <a href="http://localhost:8000/logout">
-                <span class="material-icons-outlined">logout</span>
-                Log Out
-            </a>
-        </div>
+      <div class="logo-img">
+        <img src="/static/images/logo-no-background.png" alt="statify_logo" />
+      </div>
+      <div class="sidebar-element">
+        <a href="http://localhost:8000/home">
+          <span class="material-icons-outlined">dashboard</span>
+          Dashboard
+        </a>
+      </div>
+      <div class="sidebar-element">
+        <a href="http://localhost:8000/top-songs">
+          <span class="material-icons-outlined">audiotrack</span>
+          Top Songs
+        </a>
+      </div>
+      <div class="sidebar-element">
+        <a href="http://localhost:8000/top-artists">
+          <span class="material-icons-outlined">people</span>
+          Top Artists
+        </a>
+      </div>
+      <div class="sidebar-element">
+        <a href="http://localhost:8000/top-genres">
+          <span class="material-icons-outlined">theater_comedy</span>
+          Top Genres
+        </a>
+      </div>
+      <div class="sidebar-element">
+        <a href="http://localhost:8000/discover">
+          <span class="material-icons-outlined">headset</span>
+          Discover Songs
+        </a>
+      </div>
+      <div class="sidebar-element">
+        <a href="http://localhost:8000/logout">
+          <span class="material-icons-outlined">logout</span>
+          Log Out
+        </a>
+      </div>
     </section>
 
     <main class="main" id="main">
-        <div class="container"> 
-            <div class="instructions">
-                <b class="inst-heading">You might like these songs</b>
-                <p class="inst-paragraph">Here you'll find your top 50 song recommendations in 3 different options. <br> Try all 3 for the best experience!</p>
-            </div>
-            <div class="fetch">
-                <b class="time-range">Based on:</b>
-                <select id="fetch-options">
-                    <option value="songs">My top songs</option>
-                    <option value="artists">My top artists</option>
-                    <option value="genres">My top genres</option>
-                </select>
-            </div>
-            <table id="top-tracks-table">
-                <thead>
-                    <tr>
-                        <th>Position</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Artists</th>
-                        <th>Playback</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+      <div class="container">
+        <div class="instructions">
+          <b class="inst-heading">You might like these songs</b>
+          <p class="inst-paragraph">
+            Here you'll find your top 50 song recommendations in 3 different
+            options. <br />
+            Try all 3 for the best experience!
+          </p>
         </div>
+        <div class="fetch">
+          <b class="time-range">Based on:</b>
+          <select id="fetch-options">
+            <option value="songs">My top songs</option>
+            <option value="artists">My top artists</option>
+            <option value="genres">My top genres</option>
+          </select>
+        </div>
+        <table id="top-tracks-table">
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Artists</th>
+              <th>Playback</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </main>
-       
-</body>
-<script src="/static/scripts/new_songs.js"></script>
+  </body>
+  <script src="/static/scripts/new_songs.js"></script>
 </html>
