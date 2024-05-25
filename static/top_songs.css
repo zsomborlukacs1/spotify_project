@@ -186,6 +186,11 @@ table {
     0 0 60px #1db954;
 }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @media (max-width: 925px) {
   .main {
     grid-template-columns: 1fr;

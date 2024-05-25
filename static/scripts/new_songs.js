@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`/recommendations-${selectedValue}`)
       .then((response) => response.json())
       .then((data) => {
+
         topTracksTableBody.innerHTML = "";
+
 
         data.forEach((track) => {
           const row = document.createElement("tr");
@@ -24,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const img = document.createElement("img");
           img.src = track.image;
           img.alt = track.name;
-          img.width = 50;
+          img.width = 50; 
           imageCell.appendChild(img);
           row.appendChild(imageCell);
 
