@@ -8,7 +8,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # Spotify API configuration
 SPOTIPY_CLIENT_ID = '27fe7d1bfb904201b317cc6a58e5020e'
 SPOTIPY_CLIENT_SECRET = '22e59df7d94d42febf83654897266f6d'
-SPOTIPY_REDIRECT_URI = 'http://localhost:8000/callback'
+SPOTIPY_REDIRECT_URI = 'https://spotify-project-82bcox8e9-zsomborlukacs1s-projects.vercel.app/callback'
 
 # Spotify OAuth object
 sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
@@ -454,4 +454,4 @@ def add_to_recommended_playlist():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
