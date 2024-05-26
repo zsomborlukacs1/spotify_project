@@ -11,7 +11,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # Spotify API configuration
 SPOTIPY_CLIENT_ID = '27fe7d1bfb904201b317cc6a58e5020e'
 SPOTIPY_CLIENT_SECRET = '22e59df7d94d42febf83654897266f6d'
-SPOTIPY_REDIRECT_URI = 'https://spotify-project-chi.vercel.app/callback'
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:5001/callback'
 CACHE = '.spotipyoauthcache'
 
 SCOPE="user-library-read,user-top-read,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public"
@@ -493,4 +493,4 @@ def add_to_recommended_playlist():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(host="127.0.0.1", port=5001)
