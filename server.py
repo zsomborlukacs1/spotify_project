@@ -1,6 +1,9 @@
 from flask import Flask, redirect, request, jsonify, session, render_template
 from spotipy import Spotify, SpotifyOAuth
 from datetime import datetime, timedelta
+import requests
+from spotipy import oauth2
+import spotipy
 
 app = Flask(__name__,static_folder='static', static_url_path='/static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -9,12 +12,18 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 SPOTIPY_CLIENT_ID = '27fe7d1bfb904201b317cc6a58e5020e'
 SPOTIPY_CLIENT_SECRET = '22e59df7d94d42febf83654897266f6d'
 SPOTIPY_REDIRECT_URI = 'https://spotify-project-chi.vercel.app/callback'
+CACHE = '.spotipyoauthcache'
+
+SCOPE="user-library-read,user-top-read,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public"
 
 # Spotify OAuth object
-sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                        client_secret=SPOTIPY_CLIENT_SECRET,
-                        redirect_uri=SPOTIPY_REDIRECT_URI,
-                        scope="user-library-read,user-top-read,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public")
+sp_oauth = oauth2.SpotifyOAuth(
+    SPOTIPY_CLIENT_ID,
+    SPOTIPY_CLIENT_SECRET,
+    SPOTIPY_REDIRECT_URI,
+    scope=SCOPE,
+    cache_path=CACHE
+)
 
 @app.route('/')
 def index():
@@ -23,6 +32,7 @@ def index():
 # Login endpoint
 @app.route('/login')
 def login():
+    token_info = sp_oauth.get_cached_token()
     auth_url = sp_oauth.get_authorize_url()
     return render_template('login.html' , auth_url=auth_url)
 
@@ -35,6 +45,15 @@ def callback():
     access_token = token_info['access_token']
     session['access_token'] = access_token
     return redirect('/home')
+
+@app.route('/top-tracks')
+def top_tracks():
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
+        top_tracks = sp.current_user_top_tracks(limit=10)
+        return top_tracks
 
 @app.route('/home')
 def home():
@@ -63,9 +82,10 @@ def logout():
 # Getting the users top tracks from the last 4 weeks
 @app.route('/my-top-tracks-short')
 def get_top_tracks_short():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_tracks_week = sp.current_user_top_tracks(time_range='short_term', limit=50)
             return jsonify(top_tracks_week)
@@ -79,9 +99,10 @@ def get_top_tracks_short():
 # Getting the users top tracks from the last 6 month
 @app.route('/my-top-tracks-medium')
 def get_top_tracks_medium():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_tracks_month = sp.current_user_top_tracks(time_range='medium_term', limit=50) 
             return jsonify(top_tracks_month)
@@ -95,9 +116,10 @@ def get_top_tracks_medium():
 # Getting the users top tracks from all the time
 @app.route('/my-top-tracks-long')
 def get_top_tracks_long():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_tracks_year = sp.current_user_top_tracks(time_range='long_term', limit=50)
             return jsonify(top_tracks_year)
@@ -111,9 +133,10 @@ def get_top_tracks_long():
 # Getting the users top artists from the last 4 weeks
 @app.route('/my-top-artists-short')
 def get_top_artists_short():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
             return jsonify(top_artists_week)
@@ -127,9 +150,10 @@ def get_top_artists_short():
 # Getting the users top artists from the last 6 months
 @app.route('/my-top-artists-medium')
 def get_top_artists_medium():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_artists_month = sp.current_user_top_artists(time_range='medium_term', limit=10)
             return jsonify(top_artists_month)
@@ -143,9 +167,10 @@ def get_top_artists_medium():
 # Getting the users top artists from all the time
 @app.route('/my-top-artists-long')
 def get_top_artists_long():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_artists_month = sp.current_user_top_artists(time_range='long_term', limit=10)
             return jsonify(top_artists_month)
@@ -159,9 +184,10 @@ def get_top_artists_long():
 # Getting the users top genres from the last 4 weeks
 @app.route('/top-genres-short')
 def get_top_genres_short():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             results_artists = sp.current_user_top_artists(time_range='short_term', limit=10)
             list_of_genres = []
@@ -180,9 +206,10 @@ def get_top_genres_short():
 # Getting the users top genres from the last 6 months    
 @app.route('/top-genres-medium')
 def get_top_genres_medium():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             results_artists = sp.current_user_top_artists(limit=10, offset=0, time_range='medium_term')
             list_of_genres = []
@@ -201,9 +228,10 @@ def get_top_genres_medium():
 # Getting the users top genres from last year
 @app.route('/top-genres-long')
 def get_top_genres_long():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             results_artists = sp.current_user_top_artists(limit=10, offset=0, time_range='long_term')
             list_of_genres = []
@@ -223,9 +251,10 @@ def get_top_genres_long():
 #top 10 tracks in short term 
 @app.route('/top-tracks-chart')
 def get_top_tracks_chart():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_tracks_week = sp.current_user_top_tracks(time_range='short_term', limit=10)
             return jsonify(top_tracks_week)
@@ -238,9 +267,10 @@ def get_top_tracks_chart():
     
 @app.route('/top-artists-dash')
 def get_top_artists_dash():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
             return jsonify(top_artists_week)
@@ -254,9 +284,10 @@ def get_top_artists_dash():
 #favourite genres from the past year (pie chart)    
 @app.route('/top-genres-chart')
 def get_top_genres_chart():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             results_artists = sp.current_user_top_artists(limit=3, time_range='long_term')
             list_of_genres = []
@@ -274,9 +305,10 @@ def get_top_genres_chart():
 #top 10 artists from the last month    
 @app.route('/my-top-artists-chart')
 def get_top_artists_chart():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_artists_week = sp.current_user_top_artists(time_range='short_term', limit=10)
             return jsonify(top_artists_week)
@@ -289,9 +321,10 @@ def get_top_artists_chart():
 
 @app.route('/recommendations-dash')
 def get_recommendations_dash():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             
             top_tracks = sp.current_user_top_tracks(time_range='short_term', limit=5)
@@ -321,9 +354,10 @@ def get_recommendations_dash():
     
 @app.route('/recommendations-artists')
 def get_recommendations_artists():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_artists = sp.current_user_top_artists(time_range='medium_term', limit=5)
             artist_ids = [artist["id"] for artist in top_artists["items"]]
@@ -350,9 +384,10 @@ def get_recommendations_artists():
     
 @app.route('/recommendations-songs')
 def get_recommendations_songs():
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_tracks = sp.current_user_top_tracks(time_range='long_term', limit=5)
             track_ids = [track["id"] for track in top_tracks["items"]]
@@ -402,9 +437,10 @@ def get_playlist_name(time_range):
         return 'Unknown Time Range'
 
 def create_playlist(time_range):
-    access_token = session.get('access_token')
-    if access_token:
-        sp = Spotify(auth=access_token)
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
         try:
             top_tracks = sp.current_user_top_tracks(time_range=time_range, limit=50)
             track_uris = [track['uri'] for track in top_tracks['items']]
@@ -423,7 +459,10 @@ def create_playlist(time_range):
 #add recommended track to Datafy Recommended Playlist    
 @app.route('/add-to-recommended-playlist', methods=['GET'])
 def add_to_recommended_playlist():
-    access_token = session.get('access_token')
+    token_info = sp_oauth.get_cached_token()
+    if token_info:
+        access_token = token_info['access_token']
+        sp = spotipy.Spotify(access_token)
     if not access_token:
         return jsonify({'error': 'Access token is missing.'}), 400
 
@@ -454,4 +493,4 @@ def add_to_recommended_playlist():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(debug=False)
