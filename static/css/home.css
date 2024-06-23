@@ -5,7 +5,7 @@ body {
     margin: 0;
     grid-template-columns: 300px 1fr;
     grid-template-rows: 60px 1fr;
-    grid-template-areas: 
+    grid-template-areas:
     "side header"
     "side main";
     font-family: 'Poppins', sans-serif;
@@ -38,7 +38,9 @@ body {
 .sidebar-element {
     color: white;
     display: flex;
-    justify-content: center;
+    justify-content: center; 
+    align-items: center; 
+    padding: 6%;
 }
 
 .sidebar-element a {
@@ -46,13 +48,50 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight:400;
+    font-weight: 400;
     color: white;
-    padding: 6%;
+    padding: 4%;
 }
 
-.sidebar-element a:hover {
+.sidebar-element a p {
+    margin: 0 0 0 8px; 
+    padding: 0; 
+}
+
+.sidebar-element a:hover p {
     color: #1DB954;
+}
+
+#languageSelector p {
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 24px;
+}
+
+#addToPlaylistButton{
+    display: block;
+    margin: 10px auto;
+    transition: 0.7s;
+    top:50%;
+    background-color:#13230a;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+    padding:15px;
+    min-height:30px;
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#addToPlaylistButton:hover {
+    background: #1DB954;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #1DB954,
+                0 0 25px #1DB954,
+                0 0 50px #1DB954,
+                0 0 100px #1DB954;
 }
 
 .material-icons-outlined {
@@ -66,7 +105,7 @@ body {
     align-items: center;
     width: 200px;
     margin: auto;
-    margin-top: 20px; 
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
@@ -82,7 +121,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: 
+    grid-template-areas:
     "c1 c2 c3"
     "c4 c4 c5"
     "c4 c4 c6";
@@ -123,14 +162,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;   
+    color: white;
 }
 
 .dashboard-text {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;   
+    color: white;
     text-align: center;
 }
 
@@ -173,14 +212,14 @@ body {
 }
 
 #player-box {
-    grid-area: c4; 
-    border-radius: 10px; 
-    overflow: hidden; 
+    grid-area: c4;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 #sliderContainer {
-    max-width: 300px; 
-    margin: 0 auto; 
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .slick-slide, p {
@@ -201,7 +240,7 @@ body {
 }
 
 .slick-slide img {
-    width: 180px;
+    width: 120px;
     height: auto;
     border-radius: 10%;
 }
@@ -213,58 +252,83 @@ body {
 
 #numeroUnoBox {
     position: relative;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 
 #recommendationsContainer{
-    max-width: 300px; 
-    margin: 0 auto; 
-}   
+    max-width: 300px;
+    margin: 0 auto;
+}
 
 #muteButton {
     display: block;
-    margin: 10px auto; 
+    margin: 10px auto;
     transition: 0.7s;
     top:50%;
     background-color:#13230a;
     color: #fff;
-    border:none; 
-    border-radius:10px; 
+    border:none;
+    border-radius:10px;
     padding:15px;
-    min-height:30px; 
+    min-height:30px;
     min-width: 120px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #discoverButton{
     display: block;
-    margin: 10px auto; /* Középre igazítás vízszintesen */
+    margin: 10px auto; 
     transition: 0.7s;
     top:50%;
     background-color:#13230a;
     color: #fff;
-    border:none; 
-    border-radius:10px; 
+    border:none;
+    border-radius:10px;
     padding:15px;
-    min-height:30px; 
+    min-height:30px;
     min-width: 120px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #artistButton{
     display: block;
-    margin: 10px auto; 
+    margin: 10px auto;
     transition: 0.7s;
     top:50%;
     background-color:#13230a;
     color: #fff;
-    border:none; 
-    border-radius:10px; 
+    border:none;
+    border-radius:10px;
     padding:15px;
-    min-height:30px; 
+    min-height:30px;
     min-width: 120px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#addToPlaylistButton{
+    display: block;
+    margin: 10px auto;
+    transition: 0.7s;
+    top:50%;
+    background-color:#13230a;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+    padding:15px;
+    min-height:30px;
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#addToPlaylistButton:hover {
+    background: #1DB954;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #1DB954,
+                0 0 25px #1DB954,
+                0 0 50px #1DB954,
+                0 0 100px #1DB954;
 }
 
 
@@ -303,25 +367,78 @@ body {
     text-align: center;
 }
 
+.language-flag {
+    display: none;
+  }
+  
+.language-flag.active {
+    display: inline-block; 
+}
+
+.bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #212121;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bottom-nav a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+.bottom-nav a .material-icons-outlined {
+    display: block;
+    font-size: 24px;
+}
+
 
 @media (max-width: 768px) {
     body {
-        grid-template-columns: 1fr; 
-        grid-template-rows: 40px auto; 
-        grid-template-areas: 
+        grid-template-columns: 1fr;
+        grid-template-rows: 10px auto;
+        grid-template-areas:
             "header"
             "main";
     }
 
     .sidebar {
-        display: none; 
+        display: none;
     }
 
+    .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        background-color: #212121;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 5px 0;
+      }
+    
+      .bottom-nav a {
+        color: white;
+        text-decoration: none;
+        text-align: center;
+      }
+    
+      .bottom-nav a .material-icons-outlined {
+        display: block;
+        font-size: 24px;
+      }
+
+
     .main {
-        padding: 15px; 
-        grid-template-columns: 0.5fr; 
+        padding: 15px;
+        grid-template-columns: 1fr;
         grid-template-rows: auto;
-        grid-template-areas: 
+        grid-template-areas:
             "c1"
             "c2"
             "c3"
@@ -334,13 +451,38 @@ body {
         width: 100%;
     }
 
-    .logo-img, img {
-        width: 150px; 
-        margin-top: 10px; 
-        margin-bottom: 5px; 
+    .logo-img img {
+        width: 150px;
+        margin-top: 10px;
+        margin-bottom: 5px;
     }
 
-    .box-text, .dashboard-text {
-        font-size: 14px; 
+    .box-text,
+    .dashboard-text {
+        font-size: 14px;
+    }
+
+    #top-tracks-table {
+        width: 100%;
+    }
+
+    .sidebar-element {
+        padding: 10px;
+    }
+
+    #addToPlaylistButton:hover,
+    #artistButton:hover,
+    #muteButton:hover,
+    #discoverButton:hover {
+        background: #13230a;
+        color: #fff; 
+        border-radius: 10px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    }
+}
+
+@media (min-width: 769px) {
+    .bottom-nav {
+        display: none;
     }
 }

@@ -201,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let intervalId;
   let audioPlayers = [];
   let isMuted = false;
+  let recommendationsData = [];
 
   fetch("/recommendations-dash")
     .then((response) => response.json())
@@ -210,14 +211,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      const recommendationsContainer = document.getElementById(
-        "recommendationsContainer"
-      );
+      recommendationsData = data;
+      const recommendationsContainer = document.getElementById("recommendationsContainer");
       recommendationsContainer.innerHTML = "";
 
       data.forEach((item) => {
         const recommendationDiv = document.createElement("div");
         recommendationDiv.classList.add("slider-item");
+        recommendationDiv.dataset.trackUri = item.track_uri;
 
         const trackImage = document.createElement("img");
         trackImage.src = item.image;
@@ -241,11 +242,10 @@ document.addEventListener("DOMContentLoaded", function () {
         audioPlayers.push(audioPlayer);
       });
 
-      initializeRecommendationsSlider();
-
-      playPreview(data[0].preview_url);
+      initializeRecommendationsSlider(data);
 
       if (!isMuted) {
+        playPreview(data[0].preview_url);
         startAutoSlide(data);
       }
     })
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error fetching recommendations:", error);
     });
 
-  function initializeRecommendationsSlider() {
+  function initializeRecommendationsSlider(data) {
     $("#recommendationsContainer").slick({
       infinite: true,
       slidesToShow: 1,
@@ -261,22 +261,54 @@ document.addEventListener("DOMContentLoaded", function () {
       autoplay: false,
       arrows: false,
       dots: false,
+      draggable: false,
+      swipe: false
     });
+
+    $('#recommendationsContainer').on('afterChange', function (event, slick, currentSlide) {
+      currentIndex = currentSlide;
+      updateAddToPlaylistButton(data[currentSlide].track_uri);
+      playPreview(data[currentSlide].preview_url);
+    });
+  }
+
+  function updateAddToPlaylistButton(trackUri) {
+    const addToPlaylistButton = document.getElementById("addToPlaylistButton");
+    addToPlaylistButton.dataset.trackUri = trackUri;
+
+    addToPlaylistButton.onclick = () => {
+      console.log("Track URI:", trackUri);
+
+      const addToPlaylistLink = `/add-to-recommended-playlist?track_uri=${encodeURIComponent(trackUri)}`;
+
+      fetch(addToPlaylistLink)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert(
+              "Song added to playlist successfully! Check your Spotify! :D Datafy Recommendations"
+            );
+          } else {
+            alert("Failed to add track to playlist.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    };
   }
 
   function playPreview(previewUrl) {
     if (!isMuted) {
       audioPlayers.forEach((player) => {
         player.pause();
-        player.remove();
       });
 
-      audioPlayers = [];
       const audioPlayer = new Audio(previewUrl);
       audioPlayer.autoplay = true;
       audioPlayer.loop = false;
-      audioPlayer.volume = 0.1;
-      audioPlayers.push(audioPlayer);
+      audioPlayer.volume = 0.01;
+      audioPlayers = [audioPlayer];
     }
   }
 

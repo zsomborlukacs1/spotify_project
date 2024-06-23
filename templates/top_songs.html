@@ -28,43 +28,71 @@
       </div>
       <div class="sidebar_column">
         <div class="sidebar-element">
-          <a href="https://spotify-project-ruby.vercel.app/home">
+          <a href="http://localhost:8000/home">
             <span class="material-icons-outlined">dashboard</span>
-            Dashboard
+            <p id="dashboard">Dashboard</p>
           </a>
         </div>
         <div class="sidebar-element">
-          <a href="https://spotify-project-ruby.vercel.app/top-songs">
+          <a href="http://localhost:8000/top-songs">
             <span class="material-icons-outlined">audiotrack</span>
-            Top Songs
+            <p id="topSongs">Top Songs</p>
           </a>
         </div>
         <div class="sidebar-element">
-          <a href="https://spotify-project-ruby.vercel.app/top-artists">
+          <a href="http://localhost:8000/top-artists">
             <span class="material-icons-outlined">people</span>
-            Top Artists
+            <p id="topArtists">Top Artists</p>
           </a>
         </div>
         <div class="sidebar-element">
-          <a href="https://spotify-project-ruby.vercel.app/top-genres">
+          <a href="http://localhost:8000/top-genres">
             <span class="material-icons-outlined">theater_comedy</span>
-            Top Genres
+            <p id="topGenres">Top Genres</p>
           </a>
         </div>
         <div class="sidebar-element">
-          <a href="https://spotify-project-ruby.vercel.app/discover">
+          <a href="http://localhost:8000/discover">
             <span class="material-icons-outlined">headset</span>
-            Discover Songs
+            <p id="discoverSongs">Discover Songs</p>
           </a>
         </div>
         <div class="sidebar-element">
-          <a href="https://spotify-project-ruby.vercel.app/login">
+          <a href="http://localhost:8000/login">
             <span class="material-icons-outlined">login</span>
-            Log In
+            <p id="login">Login</p>
           </a>
+        </div>
+        <div class="sidebar-element">
+          <div id="languageSelector">
+            <p class="en">🇺🇸</p> <p class="hu">🇭🇺</p>
+          </div>
         </div>
       </div>
     </section>
+
+    <section class="bottom-nav">
+      <a href="http://localhost:8000/home">
+        <span class="material-icons-outlined">dashboard</span>
+      </a>
+      <a href="http://localhost:8000/top-songs">
+        <span class="material-icons-outlined">audiotrack</span>
+      </a>
+      <a href="http://localhost:8000/top-artists">
+        <span class="material-icons-outlined">people</span>
+      </a>
+      <a href="http://localhost:8000/top-genres">
+        <span class="material-icons-outlined">theater_comedy</span>
+      </a>
+      <a href="http://localhost:8000/discover">
+        <span class="material-icons-outlined">headset</span>
+      </a>
+      <div id="languageSelector">
+        <p class="language-flag en2">🇺🇸</p>
+        <p class="language-flag hu2">🇭🇺</p>
+      </div>
+    </section>
+
 
     <main class="main" id="main">
       <div class="container">
@@ -102,4 +130,5 @@
     </main>
   </body>
   <script src="/static/scripts/top_songs.js"></script>
+  <script src="/static/translations/topSongsTranslations.js"></script>
 </html>

@@ -36,7 +36,9 @@ body {
 .sidebar-element {
   color: white;
   display: flex;
-  justify-content: center;
+  justify-content: center; 
+  align-items: center; 
+  padding: 6%;
 }
 
 .sidebar-element a {
@@ -46,11 +48,23 @@ body {
   align-items: center;
   font-weight: 400;
   color: white;
-  padding: 6%;
+  padding: 4%;
 }
 
-.sidebar-element a:hover {
-  color: #1db954;
+.sidebar-element a p {
+  margin: 0 0 0 8px; 
+  padding: 0; 
+}
+
+.sidebar-element a:hover p {
+  color: #1DB954;
+}
+
+#languageSelector p {
+  display: inline-block;
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 24px;
 }
 
 .material-icons-outlined {
@@ -204,10 +218,225 @@ table {
     0 0 60px #1db954;
 }
 
-@media (max-width: 925px) {
-  .main {
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #212121;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bottom-nav a {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+.bottom-nav a .material-icons-outlined {
+  display: block;
+  font-size: 24px;
+}
+
+
+@media (max-width: 768px) {
+  body {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 200px);
-    grid-template-areas: initial;
+    grid-template-rows: 20px 1fr auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "bottom-nav";
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #212121;
+    position: fixed;
+    bottom: 0;
+    padding: 10px 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .bottom-nav a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .bottom-nav a .material-icons-outlined {
+    display: block;
+    font-size: 24px;
+  }
+
+  .main {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .inst-heading {
+    font-size: 28px;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .inst-paragraph {
+    font-size: 16px;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .top-tracks-list li img {
+    width: 70px;
+  }
+
+  #fetch-options {
+    margin: 0.5rem 0;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #create-playlist-btn {
+    margin: 10px 0;
+  }
+
+  #top-tracks-table-container {
+    width: 100%;
+    overflow-x: auto; 
+  }
+
+  #top-tracks-table {
+    width: 100%;
+    font-size: 11px;
+    border-collapse: collapse; 
+  }
+
+  #top-tracks-table th,
+  #top-tracks-table td {
+    padding: 0.3rem; 
+  }
+
+  #top-tracks-table tr {
+    margin-bottom: 5px; 
+  }
+
+  .logo-img, img {
+    width: 35px;
+    margin-right: 0.5rem;
+    border-radius: 10%;
+    vertical-align: middle;
+  }
+
+  .play-button,
+  .add-to-playlist-button {
+    padding: 3px;
+    min-height: 20px;
+    min-width: 40px; 
+    font-size: 10px;
+    border-radius: 5px;
+  }
+
+  .play-button:hover,
+  .add-to-playlist-button:hover {
+    box-shadow: 0 0 2px #1db954, 0 0 10px #1db954, 0 0 20px #1db954, 0 0 30px #1db954;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-element {
+    font-size: small;
+  }
+
+  .sidebar-element {
+    padding: 8px;
+  }
+
+  .logo-img,
+  img {
+    width: 30px;
+  }
+
+  .inst-heading {
+    font-size: 24px;
+    margin-left: 5px;
+  }
+
+  .inst-paragraph {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+
+  .artist-image {
+    width: 30px;
+    height: auto;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+
+  .time-range {
+    margin-left: 5px;
+    font-size: x-small;
+  }
+
+  .top-tracks-list li img {
+    width: 50px;
+  }
+
+  #top-tracks-table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  #top-tracks-table {
+    width: 100%;
+    font-size: 10px; 
+    border-collapse: collapse;
+  }
+
+  #top-tracks-table th,
+  #top-tracks-table td {
+    font-size: 9px;
+  }
+
+  #top-tracks-table tr {
+    margin-bottom: 5px; 
+  }
+
+  .play-button,
+  .add-to-playlist-button {
+    padding: 3px; 
+    min-height: 20px;
+    min-width: 40px; 
+    border-radius: 5px;
+    font-size: 8px;
+  }
+
+  .play-button:hover,
+  .add-to-playlist-button:hover {
+    background: #13230a; 
+    color: #fff; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  }
+  
+}
+
+@media (min-width: 769px) {
+  .bottom-nav {
+      display: none;
   }
 }
